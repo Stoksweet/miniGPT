@@ -1,4 +1,4 @@
-const tf = require('@tensorflow/tfjs');
+const tf = require('@tensorflow/tfjs-node-gpu');
 const fs = require('fs');
 
 // Test TensorFlow.js
@@ -229,6 +229,9 @@ async function generateText(startWord, length = 5) {
 }
 
 
-fitModel().then(() => {
+fitModel().then(async () => {
+    await model.save('file://./models/my-first-transformer').then(() => {
+        console.log('Model Saved!');
+    }).catch(err => console.log(err));
     generateText('explore', 6).then(res => console.log('Generated text: ', res)).catch(err => console.log(err));
 }).catch(err => console.log(err));
